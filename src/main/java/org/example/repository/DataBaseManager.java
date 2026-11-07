@@ -35,4 +35,13 @@ public class DataBaseManager {
             e.printStackTrace();
         }
     }
+    public void clearAllTransactions() {
+        String sql = "DELETE FROM transactions";
+        try (Connection conn = DriverManager.getConnection(URL);
+             Statement stmt = conn.createStatement()) {
+            stmt.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
