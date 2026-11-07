@@ -84,6 +84,25 @@ public class FinanceAppUI extends JFrame {
         centerPanel.add(reportsGridPanel, BorderLayout.CENTER);
 
         add(centerPanel, BorderLayout.CENTER);
+
+        deleteButton.addActionListener(_ -> {
+            int confirm = JOptionPane.showConfirmDialog(
+                    this,
+                    "Вы уверены, что хотите полностью очистить историю транзакций?",
+                    "Подтверждение удаления",
+                    JOptionPane.YES_NO_OPTION
+            );
+
+            if (confirm == JOptionPane.YES_OPTION) {
+                service.clearAll();
+                updateUI();
+
+                amountField.setText("");
+                categoryField.setText("");
+            }
+        });
+
+        updateUI();
     }
 
     private void updateUI() {
