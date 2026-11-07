@@ -102,6 +102,28 @@ public class FinanceAppUI extends JFrame {
             }
         });
 
+        addButton.addActionListener(_ -> {
+            try {
+                double amount = Double.parseDouble(amountField.getText());
+                String category = categoryField.getText().trim();
+                TransactionType type = (TransactionType) typeBox.getSelectedItem();
+
+                if (category.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Пожалуйста, укажите категорию.");
+                    return;
+                }
+
+                assert type != null;
+                service.addTransaction(amount, category, type);
+                updateUI();
+
+                amountField.setText("");
+                categoryField.setText("");
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Ошибка ввода! Введите число в поле суммы.");
+            }
+        });
+
         updateUI();
     }
 
