@@ -23,4 +23,16 @@ public class DataBaseManager {
             e.printStackTrace();
         }
     }
+    public void addTransaction(double amount, String category, String type) {
+        String sql = "INSERT INTO transactions(amount, category, type) VALUES(?, ?, ?)";
+        try (Connection conn = DriverManager.getConnection(URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setDouble(1, amount);
+            pstmt.setString(2, category);
+            pstmt.setString(3, type);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
