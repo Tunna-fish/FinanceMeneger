@@ -17,4 +17,7 @@ public class FinanceService {
         return dbManager.getAllTransactions();
     }
 
+    public void clearAll() {
+        dbManager.clearAllTransactions();
+    }
 }
