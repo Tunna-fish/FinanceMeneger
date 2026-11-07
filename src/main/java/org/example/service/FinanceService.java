@@ -44,4 +44,13 @@ public class FinanceService {
                         Collectors.summingDouble(Transaction::getAmount)
                 ));
     }
+
+    public Map<String, Double> getIncomesByCategory() {
+        return getTransactions().stream()
+                .filter(t -> t.getType() == TransactionType.INCOME)
+                .collect(Collectors.groupingBy(
+                        Transaction::getCategory,
+                        Collectors.summingDouble(Transaction::getAmount)
+                ));
+    }
 }
