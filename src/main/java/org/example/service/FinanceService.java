@@ -5,6 +5,8 @@ import org.example.model.TransactionType;
 import org.example.repository.DataBaseManager;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class FinanceService {
     private final DataBaseManager dbManager = new DataBaseManager();
@@ -32,5 +34,14 @@ public class FinanceService {
                 .mapToDouble(Transaction::getAmount).sum();
 
         return income - expense;
+    }
+
+    public Map<String, Double> getExpensesByCategory() {
+        return getTransactions().stream()
+                .filter(t -> t.getType() == TransactionType.EXPENSE)
+                .collect(Collectors.groupingBy(
+                        Transaction::getCategory,
+                        Collectors.summingDouble(Transaction::getAmount)
+                ));
     }
 }
