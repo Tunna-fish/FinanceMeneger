@@ -20,4 +20,17 @@ public class FinanceService {
     public void clearAll() {
         dbManager.clearAllTransactions();
     }
+
+    public double getBalance() {
+        List<Transaction> all = getTransactions();
+        double income = all.stream()
+                .filter(t -> t.getType() == TransactionType.INCOME)
+                .mapToDouble(Transaction::getAmount).sum();
+
+        double expense = all.stream()
+                .filter(t -> t.getType() == TransactionType.EXPENSE)
+                .mapToDouble(Transaction::getAmount).sum();
+
+        return income - expense;
+    }
 }
