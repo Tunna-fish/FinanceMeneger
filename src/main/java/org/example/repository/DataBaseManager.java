@@ -23,6 +23,7 @@ public class DataBaseManager {
             e.printStackTrace();
         }
     }
+
     public void addTransaction(double amount, String category, String type) {
         String sql = "INSERT INTO transactions(amount, category, type) VALUES(?, ?, ?)";
         try (Connection conn = DriverManager.getConnection(URL);
@@ -35,6 +36,7 @@ public class DataBaseManager {
             e.printStackTrace();
         }
     }
+
     public void clearAllTransactions() {
         String sql = "DELETE FROM transactions";
         try (Connection conn = DriverManager.getConnection(URL);
@@ -43,5 +45,26 @@ public class DataBaseManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<Transaction> getAllTransactions() {
+        List<Transaction> list = new ArrayList<>();
+        String sql = "SELECT * FROM transactions";
+        try (Connection conn = DriverManager.getConnection(URL);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                list.add(new Transaction(
+                        rs.getInt("id"),
+                        rs.getDouble("amount"),
+                        rs.getString("category"),
+                        TransactionType.valueOf(rs.getString("type"))
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 }
